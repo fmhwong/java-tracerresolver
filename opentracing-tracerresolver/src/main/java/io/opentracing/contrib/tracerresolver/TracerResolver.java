@@ -107,9 +107,6 @@ public abstract class TracerResolver {
      * @return The resolved Tracer or {@code null} if none was resolved.
      */
     public static Tracer resolveTracer(ClassLoader classloader) {
-    	if (classloader == null) {
-    		classloader = Thread.currentThread().getContextClassLoader();
-    	}
         try { // Take care NOT to import GlobalTracer as it is an optional dependency and may not be on the classpath.
             if (io.opentracing.util.GlobalTracer.isRegistered()) {
                 return logResolved(io.opentracing.util.GlobalTracer.get());
@@ -118,6 +115,9 @@ public abstract class TracerResolver {
             LOGGER.finest("GlobalTracer is not found on the classpath.");
         }
 
+        if (classloader == null) {
+    		classloader = Thread.currentThread().getContextClassLoader();
+    	}
         Tracer tracer = null;
         if (!TracerResolver.isDisabled()) {
             tracer = getFromFactory(classloader);
