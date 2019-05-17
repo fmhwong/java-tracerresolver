@@ -118,8 +118,8 @@ public abstract class TracerResolver {
         Tracer tracer = null;
         if (!TracerResolver.isDisabled()) {
             if (classloader == null) {
-        		classloader = Thread.currentThread().getContextClassLoader();
-        	}
+                classloader = Thread.currentThread().getContextClassLoader();
+            }
             tracer = getFromFactory(classloader);
             if (null == tracer) {
                 tracer = getFromResolver(classloader);
