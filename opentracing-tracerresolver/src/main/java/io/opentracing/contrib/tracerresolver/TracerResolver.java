@@ -115,11 +115,11 @@ public abstract class TracerResolver {
             LOGGER.finest("GlobalTracer is not found on the classpath.");
         }
 
-        if (classloader == null) {
-    		classloader = Thread.currentThread().getContextClassLoader();
-    	}
         Tracer tracer = null;
         if (!TracerResolver.isDisabled()) {
+            if (classloader == null) {
+        		classloader = Thread.currentThread().getContextClassLoader();
+        	}
             tracer = getFromFactory(classloader);
             if (null == tracer) {
                 tracer = getFromResolver(classloader);
